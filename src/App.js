@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-import Battle from './Battle';
+import Battle from 'features/battle/Battle';
 
 function App() {
   return (
