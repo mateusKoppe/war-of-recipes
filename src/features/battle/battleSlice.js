@@ -5,6 +5,7 @@ import cards from "cards";
 
 const DECK_SIZE = 20;
 const HAND_INITIAL_SIZE = 4;
+const MANA_LIMIT = 10;
 
 const playerStateModel = {
   board: [],
@@ -42,16 +43,10 @@ export const battleSlice = createSlice({
     },
   },
   reducers: {
-    increaseRound: (state) => {
-      state.round++;
-      Object.values(BATTLE_PLAYERS).forEach((player) => {
-        state.players[player].mana.maximum++;
-        state.players[player].mana.actual = state.players[player].mana.maximum;
-      });
-    },
     castCard: (state, action) => {
       const { card, player } = action.payload;
       const battlePlayer = state.players[player];
+      battlePlayer.mana.actual -= card.manaCost;
       const cardIndex = battlePlayer.hand.findIndex((c) => c.id === card.id);
       battlePlayer.hand.splice(cardIndex, 1);
       battlePlayer.board.push(card);
@@ -66,11 +61,35 @@ export const battleSlice = createSlice({
         state.players[player].deck = deck;
       });
     },
+    nextRound: (state) => {
+      let nextPlayer;
+      switch (state.attackingPlayer) {
+        case BATTLE_PLAYERS.PLAYER:
+          nextPlayer = BATTLE_PLAYERS.ADVERSARY;
+          break;
+        case BATTLE_PLAYERS.ADVERSARY:
+          nextPlayer = BATTLE_PLAYERS.PLAYER;
+          break;
+        default:
+          nextPlayer = BATTLE_PLAYERS.PLAYER;
+      }
+      state.attackingPlayer = nextPlayer;
+      state.round++;
+      Object.values(BATTLE_PLAYERS).forEach((playerKey) => {
+        const player = state.players[playerKey];
+        player.mana.maximum =
+          player.mana.maximum < MANA_LIMIT
+            ? player.mana.maximum + 1
+            : MANA_LIMIT;
+        player.mana.actual = player.mana.maximum;
+      });
+    },
   },
 });
 
 export const selectPlayer = (player) => (state) => state.battle.players[player];
+export const selectBattle = (state) => state.battle;
 
-export const { setupGame, increaseRound, castCard } = battleSlice.actions;
+export const { setupGame, nextRound, castCard } = battleSlice.actions;
 
 export default battleSlice.reducer;

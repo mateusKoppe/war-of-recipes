@@ -3,12 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 
 import Card from "components/Card";
 
-import { selectPlayer, setupGame, castCard, BATTLE_PLAYERS } from "./battleSlice";
+import { selectPlayer, selectBattle, setupGame, castCard, BATTLE_PLAYERS, nextRound } from "./battleSlice";
 
 function Battle() {
   const dispatch = useDispatch();
   const player = useSelector(selectPlayer(BATTLE_PLAYERS.PLAYER))
   // const adversary = useSelector(selectPlayer(BATTLE_PLAYERS.ADVERSARY))
+  const battle = useSelector(selectBattle)
 
   useEffect(() => {
     dispatch(setupGame())
@@ -26,15 +27,19 @@ function Battle() {
       <div>
         <h2>Field</h2>
         {player.board.map((card, index) => (
-          <Card key={index} {...card} />
+          <Card inField key={index} {...card} />
         ))}
       </div>
-      <button>Draw</button>
+      <button onClick={() => dispatch(nextRound())}>Next turn</button>
       <div>
-        <h2>Your hand:</h2>
+        <h2>Your hand ({player.mana.actual}/{player.mana.maximum}):</h2>
         {player.hand.map((card, index) => (
-          <Card key={index} onCastCard={() => cast(card)} {...card} />
+          <Card key={index} canCast={card.manaCost <= player.mana.actual} onCastCard={() => cast(card)} {...card} />
         ))}
+      </div>
+      <div>
+        Round: {battle.round} <br/>
+        AttackingPlayer: {battle.attackingPlayer}
       </div>
     </div>
   );

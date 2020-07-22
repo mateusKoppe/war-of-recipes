@@ -1,7 +1,15 @@
 import React from "react";
 
 function Card(props) {
-  const { name, attack, hitPoints, manaCost, onCastCard, isInField } = props;
+  const {
+    name,
+    attack,
+    hitPoints,
+    manaCost,
+    onCastCard,
+    inField,
+    canCast,
+  } = props;
 
   return (
     <div>
@@ -12,9 +20,11 @@ function Card(props) {
         <b>Atk:</b> {attack}
         <b>HP:</b> {hitPoints}
       </div>
-      {!isInField && (
+      {!inField && (
         <div>
-          <button onClick={onCastCard}>Cast</button>
+          <button disabled={!canCast} onClick={onCastCard}>
+            Cast
+          </button>
         </div>
       )}
     </div>
