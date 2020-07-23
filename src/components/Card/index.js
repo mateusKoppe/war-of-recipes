@@ -1,5 +1,7 @@
 import React from "react";
 
+import CardStyles from "./Card.module.css";
+
 function Card(props) {
   const {
     name,
@@ -12,7 +14,7 @@ function Card(props) {
   } = props;
 
   return (
-    <div>
+    <div className={CardStyles.card}>
       <h3>
         {name} ({manaCost})
       </h3>

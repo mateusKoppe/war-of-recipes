@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import Card from "components/Card";
+import Hand from "./Hand"
 
-import { selectPlayer, selectBattle, setupGame, castCard, BATTLE_PLAYERS, nextRound } from "./battleSlice";
+import BattleStyle from "./Battle.module.css";
+
+import { selectPlayer, selectBattle, setupGame, BATTLE_PLAYERS, nextRound } from "./battleSlice";
 
 function Battle() {
   const dispatch = useDispatch();
@@ -15,32 +18,25 @@ function Battle() {
     dispatch(setupGame())
   }, [dispatch])
 
-  const cast = (card) => {
-    dispatch(castCard({
-      card,
-      player: BATTLE_PLAYERS.PLAYER
-    }))
-  };
-
   return (
-    <div>
+    <div className={BattleStyle.battle}>
+      <div>
+        <div>
+          Round: {battle.round} <br />
+          Player: ({player.mana.actual}/{player.mana.maximum})
+          AttackingPlayer: {battle.attackingPlayer}
+          <button onClick={() => dispatch(nextRound())}>Next turn</button>
+        </div>
+      </div>
       <div>
         <h2>Field</h2>
-        {player.board.map((card, index) => (
-          <Card inField key={index} {...card} />
-        ))}
+        <div style={{display: "flex"}}>
+          {player.board.map((card, index) => (
+            <Card inField key={index} {...card} />
+          ))}
+        </div>
       </div>
-      <button onClick={() => dispatch(nextRound())}>Next turn</button>
-      <div>
-        <h2>Your hand ({player.mana.actual}/{player.mana.maximum}):</h2>
-        {player.hand.map((card, index) => (
-          <Card key={index} canCast={card.manaCost <= player.mana.actual} onCastCard={() => cast(card)} {...card} />
-        ))}
-      </div>
-      <div>
-        Round: {battle.round} <br/>
-        AttackingPlayer: {battle.attackingPlayer}
-      </div>
+      <Hand player={player} />
     </div>
   );
 }

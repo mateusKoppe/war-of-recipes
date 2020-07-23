@@ -1,0 +1,4 @@
+.battle {
+    display: grid;
+    grid-template-rows: 25vh 40vh 35vh;
+}

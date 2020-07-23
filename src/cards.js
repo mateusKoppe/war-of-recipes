@@ -1,5 +1,17 @@
 const cards = [
   {
+    name: 'Little Apple',
+    attack: 1,
+    hitPoints: 2,
+    manaCost: 1
+  },
+  {
+    name: 'Bad orange',
+    attack: 2,
+    hitPoints: 1,
+    manaCost: 1
+  },
+  {
     name: 'Banana Hydra',
     attack: 2,
     hitPoints: 2,

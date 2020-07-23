@@ -13,8 +13,8 @@ const playerStateModel = {
   hand: [],
   hp: 20,
   mana: {
-    maximum: 0,
-    actual: 0,
+    maximum: 1,
+    actual: 1,
   },
 };
 
@@ -35,7 +35,7 @@ export const BATTLE_PLAYERS = {
 export const battleSlice = createSlice({
   name: "battle",
   initialState: {
-    round: 0,
+    round: 1,
     attackingPlayer: BATTLE_PLAYERS.PLAYER,
     players: {
       [BATTLE_PLAYERS.PLAYER]: { ...playerStateModel },
@@ -81,6 +81,7 @@ export const battleSlice = createSlice({
           player.mana.maximum < MANA_LIMIT
             ? player.mana.maximum + 1
             : MANA_LIMIT;
+        player.hand.push(player.deck.pop()) 
         player.mana.actual = player.mana.maximum;
       });
     },
