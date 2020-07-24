@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import Card from "components/Card";
 import Hand from "./Hand"
 
 import BattleStyle from "./Battle.module.css";
@@ -32,7 +31,8 @@ function Battle() {
         <h2>Field</h2>
         <div style={{display: "flex"}}>
           {player.board.map((card, index) => (
-            <Card inField key={index} {...card} />
+            // <Card inField key={index} {...card} />
+            card.name
           ))}
         </div>
       </div>

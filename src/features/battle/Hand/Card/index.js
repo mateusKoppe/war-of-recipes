@@ -9,12 +9,12 @@ function Card(props) {
     hitPoints,
     manaCost,
     onCastCard,
-    inField,
     canCast,
+    ...others
   } = props;
 
   return (
-    <div className={CardStyles.card}>
+    <div className={CardStyles.card} {...others}>
       <h3>
         {name} ({manaCost})
       </h3>
@@ -22,13 +22,11 @@ function Card(props) {
         <b>Atk:</b> {attack}
         <b>HP:</b> {hitPoints}
       </div>
-      {!inField && (
-        <div>
-          <button disabled={!canCast} onClick={onCastCard}>
-            Cast
-          </button>
-        </div>
-      )}
+      <div>
+        <button disabled={!canCast} onClick={onCastCard}>
+          Cast
+        </button>
+      </div>
     </div>
   );
 }
