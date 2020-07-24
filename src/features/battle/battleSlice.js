@@ -8,6 +8,7 @@ const HAND_INITIAL_SIZE = 4;
 const MANA_LIMIT = 10;
 
 const playerStateModel = {
+  arena: [],
   board: [],
   deck: [],
   hand: [],
@@ -32,10 +33,16 @@ export const BATTLE_PLAYERS = {
   ADVERSARY: "adversary",
 };
 
+export const BATTLE_ROUND_STEP = {
+  MAIN: 'main',
+  BATTLE: 'battle'
+}
+
 export const battleSlice = createSlice({
   name: "battle",
   initialState: {
     round: 1,
+    roundStep: BATTLE_ROUND_STEP.MAIN,
     attackingPlayer: BATTLE_PLAYERS.PLAYER,
     players: {
       [BATTLE_PLAYERS.PLAYER]: { ...playerStateModel },
@@ -50,6 +57,15 @@ export const battleSlice = createSlice({
       const cardIndex = battlePlayer.hand.findIndex((c) => c.id === card.id);
       battlePlayer.hand.splice(cardIndex, 1);
       battlePlayer.board.push(card);
+      state.players[player] = battlePlayer;
+    },
+    attackCard: (state, action) => {
+      const { card, player } = action.payload;
+      const battlePlayer = state.players[player];
+      battlePlayer.mana.actual -= card.manaCost;
+      const cardIndex = battlePlayer.board.findIndex((c) => c.id === card.id);
+      battlePlayer.board.splice(cardIndex, 1);
+      battlePlayer.arena.push(card);
       state.players[player] = battlePlayer;
     },
     setupGame: (state) => {
@@ -75,22 +91,24 @@ export const battleSlice = createSlice({
       }
       state.attackingPlayer = nextPlayer;
       state.round++;
-      Object.values(BATTLE_PLAYERS).forEach((playerKey) => {
-        const player = state.players[playerKey];
-        player.mana.maximum =
-          player.mana.maximum < MANA_LIMIT
-            ? player.mana.maximum + 1
-            : MANA_LIMIT;
-        player.hand.push(player.deck.pop()) 
-        player.mana.actual = player.mana.maximum;
-      });
+      state.roundStep = BATTLE_ROUND_STEP.MAIN;
+      const actualPlayer = state.players[nextPlayer];
+      actualPlayer.mana.maximum =
+        actualPlayer.mana.maximum < MANA_LIMIT
+          ? actualPlayer.mana.maximum + 1
+          : MANA_LIMIT;
+      actualPlayer.hand.push(actualPlayer.deck.pop()) 
+      actualPlayer.mana.actual = actualPlayer.mana.maximum;
     },
+    setRoundStep: (state, action) => {
+      state.roundStep = action.payload;
+    }
   },
 });
 
 export const selectPlayer = (player) => (state) => state.battle.players[player];
 export const selectBattle = (state) => state.battle;
 
-export const { setupGame, nextRound, castCard } = battleSlice.actions;
+export const { setupGame, nextRound, castCard, setRoundStep, attackCard } = battleSlice.actions;
 
 export default battleSlice.reducer;

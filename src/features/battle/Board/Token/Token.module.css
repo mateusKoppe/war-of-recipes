@@ -1,0 +1,17 @@
+.token {
+    border: 1px solid #444;
+    background-color: #f0e1d3;
+    width: 180px;
+    height: 130px;
+    margin: 5px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 3px 3px 1px #0000004d;
+    border-radius: 5px;
+    transition: .2s all ease;
+}
+
+.token h3 {
+    margin: 0;
+    margin-bottom: 10px;
+}

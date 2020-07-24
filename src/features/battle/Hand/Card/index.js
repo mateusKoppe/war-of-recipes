@@ -22,11 +22,7 @@ function Card(props) {
         <b>Atk:</b> {attack}
         <b>HP:</b> {hitPoints}
       </div>
-      <div>
-        <button disabled={!canCast} onClick={onCastCard}>
-          Cast
-        </button>
-      </div>
+      <div>{canCast && <button onClick={onCastCard}>Cast</button>}</div>
     </div>
   );
 }

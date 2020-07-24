@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Card from "./Card";
 
 import HandStyles from "./Hand.module.css";
 
-import { castCard, BATTLE_PLAYERS } from "features/battle/battleSlice";
+import { castCard, selectBattle, BATTLE_PLAYERS, BATTLE_ROUND_STEP } from "features/battle/battleSlice";
 
 function Hand(props) {
   const { player } = props;
@@ -13,6 +13,7 @@ function Hand(props) {
   const [hoverCard, setHoverCard] = useState(null);
 
   const dispatch = useDispatch();
+  const battle = useSelector(selectBattle);
 
   const cast = (card) => {
     dispatch(castCard({
@@ -20,6 +21,14 @@ function Hand(props) {
       player: BATTLE_PLAYERS.PLAYER
     }))
   };
+
+  const getCanCastCard = card => {
+    const isManaEnough = card.manaCost <= player.mana.actual
+    const isMainStep = battle.roundStep === BATTLE_ROUND_STEP.MAIN
+    return isManaEnough && isMainStep && isPlayerRound
+  }
+
+  const isPlayerRound = battle.attackingPlayer === BATTLE_PLAYERS.PLAYER;
 
   const getCardStyle = (card) => {
     const style = {};
@@ -45,7 +54,7 @@ function Hand(props) {
           onMouseEnter={() => setHoverCard(card)}
           onMouseLeave={() => setHoverCard(null)}
           key={index}
-          canCast={card.manaCost <= player.mana.actual}
+          canCast={getCanCastCard(card)}
           onCastCard={() => cast(card)} {...card}
         />
       ))}

@@ -1,5 +1,5 @@
 .battle {
     display: grid;
-    grid-template-rows: 25vh 55vh 20vh;
+    grid-template-rows: 25vh 40vh 15vh 20vh;
     overflow: hidden;
 }
