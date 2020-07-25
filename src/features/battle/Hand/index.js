@@ -40,7 +40,7 @@ function Hand(props) {
     if (cardHoverIndex !== -1) {
       const cardDistance = Math.abs(cardHoverIndex - cardIndex);
       const scale = Math.max(1.2 - cardDistance / 8, 1);
-      const translate = Math.max(80 - cardDistance * 15, 0);
+      const translate = Math.max(150 - cardDistance * 15, 0);
       style["transform"] = `scale(${scale}) translateY(-${translate}px)`;
       style["zIndex"] = hand.length - cardDistance;
     }
