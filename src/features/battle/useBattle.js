@@ -43,8 +43,14 @@ const initialState = {
   roundStep: BATTLE_ROUND_STEP.MAIN,
   attackingPlayer: BATTLE_PLAYERS.PLAYER,
   players: {
-    [BATTLE_PLAYERS.PLAYER]: { ...playerStateModel },
-    [BATTLE_PLAYERS.ADVERSARY]: { ...playerStateModel },
+    [BATTLE_PLAYERS.PLAYER]: {
+      ...playerStateModel,
+      key: BATTLE_PLAYERS.PLAYER
+    },
+    [BATTLE_PLAYERS.ADVERSARY]: {
+      ...playerStateModel,
+      key: BATTLE_PLAYERS.ADVERSARY
+    },
   },
 };
 
@@ -222,13 +228,13 @@ function useBattle() {
     });
   }
 
-  function setRoundStep (step) {
+  function setRoundStep(step) {
     dispatch({
-      type: 'BATTLE_UPDATE',
+      type: "BATTLE_UPDATE",
       payload: {
-        roundStep: step
-      }
-    })
+        roundStep: step,
+      },
+    });
   }
 
   return {

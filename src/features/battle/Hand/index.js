@@ -4,13 +4,10 @@ import Card from "./Card";
 
 import HandStyles from "./Hand.module.css";
 
-import {
-  BATTLE_PLAYERS,
-  BATTLE_ROUND_STEP,
-} from "features/battle/useBattle";
+import { BATTLE_ROUND_STEP } from "features/battle/useBattle";
 
 function Hand(props) {
-  const { player, battleHook } = props;
+  const { player, position, battleHook } = props;
   const { hand } = player;
   const [hoverCard, setHoverCard] = useState(null);
 
@@ -19,10 +16,11 @@ function Hand(props) {
   const cast = (card) => {
     castCreature({
       card,
-      player: BATTLE_PLAYERS.PLAYER,
-    })
-    // card.onCast && card.onCast({ battle, player: BATTLE_PLAYERS.PLAYER, dispatch });
+      player: player.key,
+    });
   };
+
+  const isPlayerRound = battle.attackingPlayer === player.key;
 
   const getCanCastCard = (card) => {
     const isManaEnough = card.manaCost <= player.mana.actual;
@@ -30,18 +28,18 @@ function Hand(props) {
     return isManaEnough && isMainStep && isPlayerRound;
   };
 
-  const isPlayerRound = battle.attackingPlayer === BATTLE_PLAYERS.PLAYER;
-
   const getCardStyle = (card) => {
     const style = {};
     const cardIndex = hand.indexOf(card);
 
+    const isTop = position === "top";
+    style["transform"] = isTop ? `rotate(180deg) translateY(185px)` : "";
     const cardHoverIndex = hand.indexOf(hoverCard);
     if (cardHoverIndex !== -1) {
       const cardDistance = Math.abs(cardHoverIndex - cardIndex);
       const scale = Math.max(1.2 - cardDistance / 8, 1);
-      const translate = Math.max(150 - cardDistance * 15, 0);
-      style["transform"] = `scale(${scale}) translateY(-${translate}px)`;
+      const translate = Math.max((isTop ? 170 : 170) - cardDistance * 15, 0);
+      style["transform"] += ` scale(${scale}) translateY(-${translate}px)`;
       style["zIndex"] = hand.length - cardDistance;
     }
 

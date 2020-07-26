@@ -4,10 +4,7 @@ import Token from "./Token";
 
 import BoardStyles from "./Board.module.css";
 
-import {
-  BATTLE_PLAYERS,
-  BATTLE_ROUND_STEP,
-} from "features/battle/useBattle";
+import { BATTLE_ROUND_STEP } from "features/battle/useBattle";
 
 function Board(props) {
   const { player, battleHook } = props;
@@ -16,14 +13,14 @@ function Board(props) {
   const { battle, attackCard } = battleHook;
 
   const isBattleStep = battle.roundStep === BATTLE_ROUND_STEP.BATTLE;
-  const isPlayerRound = battle.attackingPlayer === BATTLE_PLAYERS.PLAYER;
+  const isPlayerRound = battle.attackingPlayer === player.key;
   const canAttack = isPlayerRound && isBattleStep;
 
   const attack = (card) => {
     attackCard({
       card,
-      player: BATTLE_PLAYERS.PLAYER,
-    })
+      player: player.key,
+    });
   };
 
   return (

@@ -1,7 +1,7 @@
 import React from "react";
 
 import CardStyles from "./Card.module.css";
-import CardTemplate from "assets/img/card-template.png"
+import CardTemplate from "assets/img/card-template.png";
 
 function Card(props) {
   const {
@@ -25,12 +25,14 @@ function Card(props) {
         <div>{hitPoints}</div>
       </div>
       <div className={CardStyles.cardDescription}>
-        <div>
-          {description}
-        </div>
+        <div>{description}</div>
       </div>
-      <img className={CardStyles.cardImage} src={image} alt="Template"/>
-      <img className={CardStyles.cardTemplate} src={CardTemplate} alt="Template"/>
+      <img className={CardStyles.cardImage} src={image} alt="Template" />
+      <img
+        className={CardStyles.cardTemplate}
+        src={CardTemplate}
+        alt="Template"
+      />
     </div>
   );
 }
