@@ -3,6 +3,7 @@
     grid-template-columns: 80vw  20vw;
     grid-template-rows: 100vh;
     overflow: hidden;
+    background-color: #bfb166;
 }
 
 .combat {
