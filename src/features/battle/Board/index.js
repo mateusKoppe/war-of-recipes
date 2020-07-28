@@ -1,4 +1,5 @@
 import React from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import Token from "./Token";
 
@@ -17,23 +18,45 @@ function Board(props) {
   const canAttack = isPlayerRound && isBattleStep;
 
   const attack = (card) => {
-    attackCard({
-      card,
-      player: player.key,
-    });
+   
   };
 
   return (
-    <div className={BoardStyles.board}>
-      {board.map((card, index) => (
-        <Token
-          canAttack={canAttack}
-          key={index}
-          onAttack={() => attack(card)}
-          {...card}
-        />
-      ))}
-    </div>
+    <Droppable
+      droppableId="board"
+      direction="horizontal"
+      isDropDisabled={battle.roundStep !== BATTLE_ROUND_STEP.MAIN}
+    >
+      {(provided, snapshot) => (
+        <div
+          className={BoardStyles.board}
+          ref={provided.innerRef}
+          style={{
+            backgroundColor: snapshot.isDraggingOver ? "rgba(0,0,0,.2)" : "",
+          }}
+          {...provided.droppableProps}
+        >
+          {board.map((card, index) => (
+            <Draggable key={card.id} draggableId={card.id} index={index}>
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                >
+                  <Token
+                    canAttack={canAttack}
+                    onAttack={() => attack(card)}
+                    {...card}
+                  />
+                </div>
+              )}
+            </Draggable>
+          ))}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
   );
 }
 

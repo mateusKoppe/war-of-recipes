@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 
 import Card from "./Card";
 
@@ -11,14 +12,7 @@ function Hand(props) {
   const { hand } = player;
   const [hoverCard, setHoverCard] = useState(null);
 
-  const { battle, castCreature } = battleHook;
-
-  const cast = (card) => {
-    castCreature({
-      card,
-      player: player.key,
-    });
-  };
+  const { battle } = battleHook;
 
   const isPlayerRound = battle.attackingPlayer === player.key;
 
@@ -28,8 +22,9 @@ function Hand(props) {
     return isManaEnough && isMainStep && isPlayerRound;
   };
 
-  const getCardStyle = (card) => {
+  const getCardStyle = (card, props = {}) => {
     const style = {};
+    const { isDragging } = props;
     const cardIndex = hand.indexOf(card);
 
     const isTop = position === "top";
@@ -38,28 +33,61 @@ function Hand(props) {
     if (cardHoverIndex !== -1) {
       const cardDistance = Math.abs(cardHoverIndex - cardIndex);
       const scale = Math.max(1.2 - cardDistance / 8, 1);
-      const translate = Math.max((isTop ? 170 : 170) - cardDistance * 15, 0);
+      const translate = Math.max(170 - cardDistance * 15, 0);
       style["transform"] += ` scale(${scale}) translateY(-${translate}px)`;
       style["zIndex"] = hand.length - cardDistance;
+    }
+
+    if (isDragging) {
+      style["transform"] += ` scale(1.3) translateY(-170px)`;
+      style["zIndex"] = hand.length;
     }
 
     return style;
   };
 
   return (
-    <div className={HandStyles.hand}>
-      {hand.map((card, index) => (
-        <Card
-          style={getCardStyle(card)}
-          onMouseEnter={() => setHoverCard(card)}
-          onMouseLeave={() => setHoverCard(null)}
-          key={index}
-          canCast={getCanCastCard(card)}
-          onCastCard={() => cast(card)}
-          {...card}
-        />
-      ))}
-    </div>
+    <Droppable droppableId="hand" direction="horizontal">
+      {(provided, snapshot) => (
+        <div
+          className={HandStyles.hand}
+          style={
+            {backgroundColor: snapshot.isDraggingOver ? 'rgba(0,0,0,.2)' : ''}
+          }
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          {hand.map((card, index) => (
+            <Draggable
+              key={card.id}
+              draggableId={card.id}
+              isDragDisabled={!getCanCastCard(card)}
+              index={index}
+            >
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                >
+                  <Card
+                    style={getCardStyle(card, {
+                      isDragging: snapshot.isDragging,
+                    })}
+                    onMouseEnter={() => setHoverCard(card)}
+                    onMouseLeave={() => setHoverCard(null)}
+                    key={index}
+                    canCast={getCanCastCard(card)}
+                    {...card}
+                  />
+                </div>
+              )}
+            </Draggable>
+          ))}
+        </div>
+      )}
+    </Droppable>
   );
 }
 

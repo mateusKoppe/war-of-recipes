@@ -17,7 +17,7 @@ function Card(props) {
   } = props;
 
   return (
-    <div className={CardStyles.card} {...others} onClick={onCastCard}>
+    <div className={CardStyles.card} {...others}>
       <h3 className={CardStyles.cardTitle}>{name}</h3>
       <div className={CardStyles.cardMana}>{manaCost}</div>
       <div className={CardStyles.cardStats}>

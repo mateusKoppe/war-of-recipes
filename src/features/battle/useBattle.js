@@ -24,6 +24,9 @@ export const BATTLE_PLAYERS = {
 export const BATTLE_ROUND_STEP = {
   MAIN: "main",
   BATTLE: "battle",
+  DEFENSE: "defense",
+  END_BATTLE: "end_battle",
+  ENDING: "ending",
 };
 
 const playerStateModel = {
@@ -45,11 +48,11 @@ const initialState = {
   players: {
     [BATTLE_PLAYERS.PLAYER]: {
       ...playerStateModel,
-      key: BATTLE_PLAYERS.PLAYER
+      key: BATTLE_PLAYERS.PLAYER,
     },
     [BATTLE_PLAYERS.ADVERSARY]: {
       ...playerStateModel,
-      key: BATTLE_PLAYERS.ADVERSARY
+      key: BATTLE_PLAYERS.ADVERSARY,
     },
   },
 };
@@ -134,7 +137,29 @@ function useBattle() {
     });
   }
 
+  function resetArena() {
+    Object.values(BATTLE_PLAYERS).forEach((player) => {
+      const board = [
+        ...state.players[player].board,
+        ...state.players[player].arena,
+      ];
+      console.log(player);
+      dispatch({
+        type: "PLAYER_UPDATE",
+        payload: {
+          key: player,
+          player: {
+            arena: [],
+            board,
+          },
+        },
+      });
+    });
+  }
+
   function nextRound() {
+    resetArena()
+
     let nextPlayer;
     switch (state.attackingPlayer) {
       case BATTLE_PLAYERS.PLAYER:

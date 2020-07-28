@@ -1,6 +1,7 @@
 import React from "react";
 
 import TokenStyles from "./Token.module.css";
+import TokenTemplate from "assets/img/token-template.png";
 
 function Token(props) {
   const {
@@ -20,7 +21,6 @@ function Token(props) {
         <b>Atk:</b> {attack}
         <b>HP:</b> {hitPoints}
       </div>
-      <div>{canAttack && <button onClick={onAttack}>Attack</button>}</div>
     </div>
   );
 }
