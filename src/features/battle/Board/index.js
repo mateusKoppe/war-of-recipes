@@ -45,8 +45,6 @@ function Board(props) {
                   {...provided.dragHandleProps}
                 >
                   <Token
-                    canAttack={canAttack}
-                    onAttack={() => attack(card)}
                     {...card}
                   />
                 </div>
