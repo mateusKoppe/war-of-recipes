@@ -1,7 +1,7 @@
 import React from "react";
 
 import TokenStyles from "./Token.module.css";
-import TokenTemplate from "assets/img/card-template.png";
+import TokenTemplate from "assets/img/token-template.png";
 
 function Token(props) {
   const {
@@ -23,8 +23,6 @@ function Token(props) {
         alt="Template"
       />
       <div className={TokenStyles.tokenContent}>
-        <h3 className={TokenStyles.tokenTitle}>{name}</h3>
-        <div className={TokenStyles.tokenMana}>{manaCost}</div>
         <div className={TokenStyles.tokenStats}>
           <div>{attack}</div>
           <div>{hitPoints}</div>
