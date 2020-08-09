@@ -4,6 +4,7 @@ import Broc from "assets/img/cards/broc.png";
 import Snana from "assets/img/cards/snana.png";
 import LoveApple from "assets/img/cards/love-apple.png";
 import Beguetti from "assets/img/cards/beguetti.png";
+import Guacallitor from "assets/img/cards/guacallitor.png";
 
 const cards = [
   {
@@ -53,63 +54,15 @@ const cards = [
     attack: 3,
     hitPoints: 2,
     manaCost: 4
+  },
+  {
+    name: "Guacallitor",
+    image: Guacallitor,
+    description: "Attack: Stun the enemy for the next turn",
+    attack: 4,
+    hitPoints: 3,
+    manaCost: 4
   }
-  // {
-  //   name: "Little Apple",
-  //   image: "sssnana.png",
-  //   description: "",
-  //   attack: 1,
-  //   hitPoints: 2,
-  //   manaCost: 1,
-  // },
-  // {
-  //   name: "Bad orange",
-  //   image: "sssnana.png",
-  //   description: "",
-  //   attack: 2,
-  //   hitPoints: 1,
-  //   manaCost: 1,
-  // },
-  // {
-  //   name: "Banana Hydra",
-  //   image: "sssnana.png",
-  //   description: "",
-  //   attack: 2,
-  //   hitPoints: 2,
-  //   manaCost: 2,
-  // },
-  // {
-  //   name: "Garlic Queen",
-  //   image: "sssnana.png",
-  //   description: "When cast summon 1 Garlic Soldiers",
-  //   attack: 0,
-  //   hitPoints: 1,
-  //   manaCost: 2,
-  // },
-  // {
-  //   name: "dTomator",
-  //   image: "sssnana.png",
-  //   description: "",
-  //   attack: 3,
-  //   hitPoints: 2,
-  //   manaCost: 3,
-  // },
-  // {
-  //   name: "Pizzanator",
-  //   image: "sssnana.png",
-  //   description: "",
-  //   attack: 2,
-  //   hitPoints: 5,
-  //   manaCost: 3,
-  // },
-  // {
-  //   name: "Chocolate mutant ninja turtle",
-  //   image: "sssnana.png",
-  //   description: "",
-  //   attack: 5,
-  //   hitPoints: 2,
-  //   manaCost: 4,
-  // },
 ];
 
 export default cards;
