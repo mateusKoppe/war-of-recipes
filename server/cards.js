@@ -1,10 +1,10 @@
-import DeTomator from "assets/img/cards/dtomator.png";
-import Ninjita from "assets/img/cards/ninjita.png";
-import Broc from "assets/img/cards/broc.png";
-import Snana from "assets/img/cards/snana.png";
-import LoveApple from "assets/img/cards/love-apple.png";
-import Beguetti from "assets/img/cards/beguetti.png";
-import Guacallitor from "assets/img/cards/guacallitor.png";
+const DeTomator = "http://localhost:5000/img/cards/dtomator.png";
+const Ninjita = "http://localhost:5000/img/cards/ninjita.png";
+const Broc = "http://localhost:5000/img/cards/broc.png";
+const Snana = "http://localhost:5000/img/cards/snana.png";
+const LoveApple = "http://localhost:5000/img/cards/love-apple.png";
+const Beguetti = "http://localhost:5000/img/cards/beguetti.png";
+const Guacallitor = "http://localhost:5000/img/cards/guacallitor.png";
 
 const cards = [
   {
@@ -65,4 +65,4 @@ const cards = [
   }
 ];
 
-export default cards;
+module.exports = cards;

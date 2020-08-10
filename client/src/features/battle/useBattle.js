@@ -1,8 +1,6 @@
 import { useReducer, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 
-import cards from "cards";
-
 const DECK_SIZE = 20;
 const HAND_INITIAL_SIZE = 4;
 const MANA_LIMIT = 10;
