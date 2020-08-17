@@ -34,14 +34,14 @@ function Battle() {
           player: player.key,
           card: player.hand[props.source.index],
         });
-        break;
+        return
 
       case "arena":
         attackCard({
           card: player.board[props.source.index],
           player: player.key,
         });
-        break;
+        return
 
       default:
         break;
@@ -79,11 +79,11 @@ function Battle() {
         <DragDropContext onDragEnd={handleDragEnd(adversary)}>
           <Hand player={adversary} position="top" battleHook={battleHook} />
           <Board player={adversary} battleHook={battleHook} />
-          <Arena player={adversary} battleHook={battleHook} />
+          <Arena player={adversary} adversary={player} battleHook={battleHook} />
         </DragDropContext>
 
         <DragDropContext onDragEnd={handleDragEnd(player)}>
-          <Arena player={player} battleHook={battleHook} />
+          <Arena player={player} adversary={adversary} battleHook={battleHook} />
           <Board player={player} battleHook={battleHook} />
           <Hand player={player} position="bottom" battleHook={battleHook} />
         </DragDropContext>
